@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommender</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ffcc00;
+            margin-bottom: 30px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 300px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        input[type="submit"] {
+            padding: 12px 20px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .movie-search-info {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #dddddd;
+        }
+
+        .recommendation-title {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .recommendations {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .movie-card {
+            background-color: #ffffff;
+            color: black;
+            border-radius: 10px;
+            width: 200px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+        }
+
+        .movie-card p {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>TMDB Movie Recommendation</h1>
+
+    <form method="POST">
+        <input type="text" name="movie" placeholder="Enter movie name..." required>
+        <input type="submit" value="Recommend">
+    </form>
+
+    {% if movie_name %}
+        <div class="movie-search-info">
+            You searched for: <strong>{{ movie_name }}</strong>
+        </div>
+    {% endif %}
+
+    {% if recommendations %}
+        <div class="recommendation-title">
+            Recommended Movies:
+        </div>
+
+        <div class="recommendations">
+            {% for title, poster in recommendations %}
+                <div class="movie-card">
+                    <img src="{{ poster }}" alt="{{ title }} poster">
+                    <p>{{ title }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
