@@ -5,7 +5,7 @@ from urllib.parse import quote
 app = Flask(__name__)
 
 # Your TMDB API Key
-tmdb_api_key = "220ae607aba8a49a9fe7e3e9707ac0d1"
+tmdb_api_key = "Your_API_Key"
 
 def fetch_movie_data_from_api(movie_title):
     url = f"https://api.themoviedb.org/3/search/movie?api_key={tmdb_api_key}&query={quote(movie_title)}"
@@ -73,11 +73,10 @@ def recommend(movie_title):
     recommendations = []
     used_titles = set()
 
-    # Assign these variables right after movie_info is available
     original_genres = set(movie_info.get("genre", []))
     original_year = int(movie_info.get("year", "2000"))
 
-    # Priority 1: Sequel or same collection
+    # 1: Sequel or same collection
     sequels, collection_id = fetch_movie_collection(movie_id)
     for title in sequels:
         if title.lower() != movie_info['title'].lower():
@@ -87,7 +86,7 @@ def recommend(movie_title):
         if len(recommendations) >= 5:
             break
 
-    # Priority 2: Similar movies from TMDB similar API
+    # 2: Similar movies from TMDB similar API
     if len(recommendations) < 5:
         sorted_similars = sorted(
             movie_info['similar'],
@@ -105,7 +104,7 @@ def recommend(movie_title):
             if year < original_year - 2:
                 continue  # too old
 
-            # Fetch genre to match at least one
+            # Fetch genre 
             genre_url = f"https://api.themoviedb.org/3/movie/{movie['id']}?api_key={tmdb_api_key}"
             genre_resp = requests.get(genre_url).json()
             movie_genres = set([g['name'] for g in genre_resp.get('genres', [])])
@@ -120,7 +119,7 @@ def recommend(movie_title):
             if len(recommendations) >= 5:
                 break
 
-    # Priority 3: Fallback - Fill remaining with genre-matching popular recent movies
+    # 3: Fallback - Fill remaining with genre-matching popular recent movies
     if len(recommendations) < 5:
         genre_map_url = f"https://api.themoviedb.org/3/genre/movie/list?api_key={tmdb_api_key}&language=en-US"
         genre_data = requests.get(genre_map_url).json()
