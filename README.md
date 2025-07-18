@@ -1,4 +1,4 @@
-# 🎬 Dynamic Movie Recommendation System
+# 🎬 Movie Recommendation System
 
 A real-time movie recommender built using Python, Flask, and TMDB API. Suggests movies dynamically based on input title using content metadata like genres, cast, overview, and recent releases — without relying on any static similarity file.
 
